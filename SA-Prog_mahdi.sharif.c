@@ -24,11 +24,17 @@ FILE *in_fp, *fopen();
 /* Function declarations */
 void addChar();
 void getChar();
+void expr();
+void term();
+void factor();
+void error();
 void getNonBlank();
 int lex();
+
 /* Character classes */
 #define LETTER 0
 #define DIGIT 1
+#define NEWLINE 1
 #define UNKNOWN 99
 /* Token codes */
 #define INT_LIT 10
@@ -43,16 +49,26 @@ int lex();
 
 /******************************************************/
 /* main driver */
-int main() {
 /* Open the input data file and process its contents */
-	if ((in_fp = fopen("front.in", "r")) == NULL)
-		printf("ERROR - cannot open front.in \n");
-	else {
-		getChar();
-		do {
-			lex();
-		} while (nextToken != EOF);
-	}
+main(int argc, char* argv[]) {
+  if (argc != 2) {
+      printf("No file given at function call.... \n");
+      exit(0);
+  }
+  if ((in_fp = fopen(argv[1], "r")) == NULL)
+    printf("ERROR - cannot open front.in \n");
+  else {
+    while ((read_exression = getline(&expression, &expression_length, in_fp)) != EOF) {
+      indexLine = 0;
+      getChar();
+      if (expression != NULL) {
+        do {
+          lex();
+          expr();
+        } while (nextToken != EOF);
+      }
+    }
+  }
 }
 /*****************************************************/
 /* lookup - a function to lookup operators and parentheses
@@ -104,15 +120,20 @@ void addChar() {
 /* getChar - a function to get the next character of
 input and determine its character class */
 void getChar() {
-	if ((nextChar = getc(in_fp)) != EOF) {
-		if (isalpha(nextChar))
+	if (expression[indexLine] != '\n' && expression[indexLine] != '\0') {
+			nextChar = expression[indexLine++];
+		if (isalpha(nextChar)) {
 			charClass = LETTER;
-		else if (isdigit(nextChar))
+		}
+		else if (isdigit(nextChar)) {
 			charClass = DIGIT;
+		}
+		else if (nextChar == '\n')
+			charClass = NEWLINE;
 		else charClass = UNKNOWN;
 	}
 	else
-		charClass = EOF;
+	charClass = EOF;
 }
 /*****************************************************/
 /* getNonBlank - a function to call getChar until it
