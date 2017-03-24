@@ -11,9 +11,14 @@ arithmetic expressions */
 int charClass;
 char lexeme [100];
 char nextChar;
+char lastChar;
+char* exp = NULL;
+int indexLine;
 int lexLen;
 int token;
 int nextToken;
+size_t length = 0;
+ssize_t read;
 FILE *in_fp, *fopen();
 
 /* Function declarations */
