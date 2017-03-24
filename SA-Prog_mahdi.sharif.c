@@ -121,19 +121,19 @@ void addChar() {
 input and determine its character class */
 void getChar() {
 	if (expression[indexLine] != '\n' && expression[indexLine] != '\0') {
-			nextChar = expression[indexLine++];
-		if (isalpha(nextChar)) {
-			charClass = LETTER;
-		}
-		else if (isdigit(nextChar)) {
-			charClass = DIGIT;
-		}
-		else if (nextChar == '\n')
-			charClass = NEWLINE;
-		else charClass = UNKNOWN;
-	}
-	else
-	charClass = EOF;
+	      nextChar = expression[indexLine++];
+	    if (isalpha(nextChar)) {
+	      charClass = LETTER;
+	    }
+	    else if (isdigit(nextChar)) {
+	      charClass = DIGIT;
+	    }
+	    else if (nextChar == '\n')
+	      charClass = NEWLINE;
+	    else charClass = UNKNOWN;
+	  }
+	  else
+	  charClass = EOF;
 }
 /*****************************************************/
 /* getNonBlank - a function to call getChar until it
