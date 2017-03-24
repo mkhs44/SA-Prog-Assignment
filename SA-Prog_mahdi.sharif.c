@@ -50,7 +50,7 @@ int lex();
 /******************************************************/
 /* main driver */
 /* Open the input data file and process its contents */
-main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
   if (argc != 2) {
       printf("No file given at function call.... \n");
       exit(0);
@@ -58,10 +58,10 @@ main(int argc, char* argv[]) {
   if ((in_fp = fopen(argv[1], "r")) == NULL)
     printf("ERROR - cannot open front.in \n");
   else {
-    while ((read_exression = getline(&expression, &expression_length, in_fp)) != EOF) {
+    while ((read = getline(&exp, &length, in_fp)) != EOF) {
       indexLine = 0;
       getChar();
-      if (expression != NULL) {
+      if (exp != NULL) {
         do {
           lex();
           expr();
@@ -120,8 +120,8 @@ void addChar() {
 /* getChar - a function to get the next character of
 input and determine its character class */
 void getChar() {
-	if (expression[indexLine] != '\n' && expression[indexLine] != '\0') {
-	      nextChar = expression[indexLine++];
+	if (exp[indexLine] != '\n' && exp[indexLine] != '\0') {
+	      nextChar = exp[indexLine++];
 	    if (isalpha(nextChar)) {
 	      charClass = LETTER;
 	    }
@@ -257,3 +257,7 @@ the next token and parse the next term */
 	}
 	printf("Exit <expr>\n");
 } /* End of function expr */
+
+void error() {
+  printf("!! Error has occurred and been caught at %c !! The expression is %s ****\n", lastChar, exp);
+}
