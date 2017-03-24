@@ -52,11 +52,11 @@ int lex();
 /* Open the input data file and process its contents */
 int main(int argc, char* argv[]) {
   if (argc != 2) {
-      printf("No file given at function call.... \n");
+      printf("File not found - ERROR \n");
       exit(0);
   }
   if ((in_fp = fopen(argv[1], "r")) == NULL)
-    printf("ERROR - cannot open front.in \n");
+    printf("Cannot open front.in - ERROR \n");
   else {
     while ((read = getline(&exp, &length, in_fp)) != EOF) {
       indexLine = 0;
@@ -114,7 +114,7 @@ void addChar() {
 		lexeme[lexLen] = 0;
 	}
 	else
-		printf("Error - lexeme is too long \n");
+		printf("Lexeme too long - ERROR \n");
 }
 /*****************************************************/
 /* getChar - a function to get the next character of
@@ -186,7 +186,7 @@ int lex() {
 			lexeme[3] = 0;
 			break;
 	} /* End of switch */
-	printf("Next token is: %d, Next lexeme is %s\n",nextToken, lexeme);
+	printf("Next token: %d, Next lexeme: %s \n",nextToken, lexeme);
 	return nextToken;
 } /* End of function lex */
 
@@ -259,5 +259,5 @@ the next token and parse the next term */
 } /* End of function expr */
 
 void error() {
-  printf("!! Error has occurred and been caught at %c !! The expression is %s ****\n", lastChar, exp);
+  printf("Error has been caught at %c, The expression: %s \n", lastChar, exp);
 }
